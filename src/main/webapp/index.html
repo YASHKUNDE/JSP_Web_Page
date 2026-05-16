@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Web Project Dashboard</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+  /* 1. RESET & VARIABLES */
+  :root {
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --bg-light: #f9fafb;
+    --card-bg: #ffffff;
+    --border-light: #e5e7eb;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    --shadow-hover: 0 10px 25px -5px rgba(0,0,0,0.1);
+    --ease-smooth: cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f2f5; /* Light neutral background */
+    color: var(--text-main);
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+
+  /* 2. MAIN DASHBOARD FRAME */
+  .main-frame {
+    background: var(--bg-light);
+    border-radius: 16px;
+    padding: 24px;
+    width: 1100px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Smooth scroll */
+  .main-frame::-webkit-scrollbar {
+    width: 6px;
+  }
+  .main-frame::-webkit-scrollbar-track {
+    background: #edf2f7;
+    border-radius: 3px;
+  }
+  .main-frame::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+  }
+  .main-frame::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  /* 3. CARD STYLING */
+  .card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s var(--ease-smooth),
+                box-shadow 0.3s var(--ease-smooth);
+    will-change: transform, box-shadow;
+  }
+
+  /* Form inside card */
+  .card form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  .card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e5e7eb;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+
+  /* 4. INPUTS & FORMS */
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #ffffff;
+    color: var(--text-main);
+    transition: border-color 0.2s var(--ease-smooth),
+                box-shadow 0.2s var(--ease-smooth),
+                transform 0.15s var(--ease-smooth);
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    transform: translateY(-1px);
+  }
+
+  input[type="submit"] {
+    margin-top: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s var(--ease-smooth),
+                box-shadow 0.2s var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+  }
+
+  input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  input[type="submit"]:active {
+    transform: scale(0.95);
+  }
+
+  /* 5. ANIMATIONS */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card {
+    animation: fadeInUp 0.6s var(--ease-smooth) backwards;
+  }
+
+  .card:nth-child(1) { animation-delay: 0.1s; }
+  .card:nth-child(2) { animation-delay: 0.15s; }
+  .card:nth-child(3) { animation-delay: 0.2s; }
+  .card:nth-child(4) { animation-delay: 0.25s; }
+  .card:nth-child(5) { animation-delay: 0.3s; }
+  .card:nth-child(6) { animation-delay: 0.35s; }
+
+  /* 6. RESPONSIVE */
+  @media (max-width: 1024px) {
+    .main-frame {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .main-frame {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      padding: 16px;
+      max-height: 95vh;
+    }
+    .card:hover {
+      transform: none;
+    }
+    body {
+      padding: 12px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="main-frame">
+    <div class="card">
+      <form action="First.jsp" method="get">
+        <h2>Hello World</h2>
+        <label>Your Name</label>
+        <input type="text" name="nm" placeholder="Enter name..." autocomplete="off">
+        <input type="submit" value="Get Name">
+      </form>
+    </div>
+
+    <div class="card">
+      <form action="Square.jsp" method="get">
+        <h2>Square Calc</h2>
+        <label>Number</label>
+        <input type="text" name="num" placeholder="e.g. 25" autocomplete="off">
+        <input type="submit" value="Calculate">
+      </form>
+    </div>
+
+    <div class="card">
+      <form action="Addition.jsp" method="get">
+        <h2>Addition</h2>
+        <label>Number 01</label>
+        <input type="text" name="add1" placeholder="0">
+        <label>Number 02</label>
+        <input type="text" name="add2" placeholder="0">
+        <input type="submit" value="Add Numbers">
+      </form>
+    </div>
+
+    <div class="card">
+      <form action="Substraction.jsp" method="get">
+        <h2>Subtraction</h2>
+        <label>Number 01</label>
+        <input type="text" name="sub1" placeholder="0">
+        <label>Number 02</label>
+        <input type="text" name="sub2" placeholder="0">
+        <input type="submit" value="Subtract">
+      </form>
+    </div>
+
+    <div class="card">
+      <form action="Multiplication.jsp" method="get">
+        <h2>Multiplication</h2>
+        <label>Number 01</label>
+        <input type="text" name="multi1" placeholder="0">
+        <label>Number 02</label>
+        <input type="text" name="multi2" placeholder="0">
+        <input type="submit" value="Multiply">
+      </form>
+    </div>
+
+    <div class="card">
+      <form action="Division.jsp" method="get">
+        <h2>Division</h2>
+        <label>Number 01</label>
+        <input type="text" name="div1" placeholder="0">
+        <label>Number 02</label>
+        <input type="text" name="div2" placeholder="0">
+        <input type="submit" value="Divide">
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>
